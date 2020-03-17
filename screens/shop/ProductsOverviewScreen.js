@@ -1,40 +1,107 @@
-// Purpose - opening screen that shows all of the products for sale
-import React from 'react';
-import { FlatList, Button, Platform } from 'react-native';
+import React, { useState, useEffect, useCallback } from 'react';
+import {
+  View,
+  Text,
+  FlatList,
+  Button,
+  Platform,
+  ActivityIndicator,
+  StyleSheet
+} from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import HeaderButton from '../../components/UI/HeaderButton';
 import ProductItem from '../../components/shop/ProductItem';
-import * as cartActions from '../../store/actions/cart'; // see line 51
+import * as cartActions from '../../store/actions/cart';
+import * as productsActions from '../../store/actions/products';
 import Colors from '../../constants/Colors';
 
-// Props are short for Properties. The simple rule of thumb is props should not be changed
-// Components receive props from their parent. These props should not be modified inside the component. In React and React Native the data flows in one direction -> From the parent to the child.
 const ProductsOverviewScreen = props => {
-  // get the available products from the products reducer
-  const products = useSelector(state => state.products.availableProducts); // from Products reducer
+  const [isLoading, setIsLoading] = useState(false);
+  const [isRefreshing, setIsRefreshing] = useState(false);
+  const [error, setError] = useState();
+  const products = useSelector(state => state.products.availableProducts);
   const dispatch = useDispatch();
 
-  // setup the navigation to the ProductDetail screen on line 37
+  const loadProducts = useCallback(async () => {
+    setError(null);
+    setIsRefreshing(true);
+    try {
+      await dispatch(productsActions.fetchProducts());
+    } catch (err) {
+      setError(err.message);
+    }
+    setIsRefreshing(false);
+  }, [dispatch, setIsLoading, setError]);
+
+  useEffect(() => {
+    const willFocusSub = props.navigation.addListener(
+      'willFocus',
+      loadProducts
+    );
+
+    return () => {
+      willFocusSub.remove();
+    };
+  }, [loadProducts]);
+
+  useEffect(() => {
+    setIsLoading(true);
+    loadProducts().then(() => {
+      setIsLoading(false);
+    });
+  }, [dispatch, loadProducts]);
+
   const selectItemHandler = (id, title) => {
     props.navigation.navigate('ProductDetail', {
-      productId: id, // pass this
+      productId: id,
       productTitle: title
     });
   };
 
+  if (error) {
+    return (
+      <View style={styles.centered}>
+        <Text>An error occurred!</Text>
+        <Button
+          title="Try again"
+          onPress={loadProducts}
+          color={Colors.primary}
+        />
+      </View>
+    );
+  }
+
+  if (isLoading) {
+    return (
+      <View style={styles.centered}>
+        <ActivityIndicator size="large" color={Colors.primary} />
+      </View>
+    );
+  }
+
+  if (!isLoading && products.length === 0) {
+    return (
+      <View style={styles.centered}>
+        <Text>No products found. Maybe start adding some!</Text>
+      </View>
+    );
+  }
+
   return (
     <FlatList
-      data={products} // line 16
-      keyExtractor={item => item.id} // unique key
+      onRefresh={loadProducts}
+      refreshing={isRefreshing}
+      data={products}
+      keyExtractor={item => item.id}
       renderItem={itemData => (
         <ProductItem
           image={itemData.item.imageUrl}
           title={itemData.item.title}
           price={itemData.item.price}
           onSelect={() => {
-            selectItemHandler(itemData.item.id, itemData.item.title); // see line 20 above, go to ProductDetail screen
+            selectItemHandler(itemData.item.id, itemData.item.title);
           }}
         >
           <Button
@@ -46,10 +113,10 @@ const ProductsOverviewScreen = props => {
           />
           <Button
             color={Colors.primary}
-            title="Add To Cart"
+            title="To Cart"
             onPress={() => {
-              dispatch(cartActions.addToCart(itemData.item)); // adds item to the cart
-            }} // dispatch uses addToCart function in cart.js in actions folder
+              dispatch(cartActions.addToCart(itemData.item));
+            }}
           />
         </ProductItem>
       )}
@@ -60,7 +127,7 @@ const ProductsOverviewScreen = props => {
 ProductsOverviewScreen.navigationOptions = navData => {
   return {
     headerTitle: 'All Products',
-    headerLeft: () => (
+    headerLeft: (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
           title="Menu"
@@ -71,7 +138,7 @@ ProductsOverviewScreen.navigationOptions = navData => {
         />
       </HeaderButtons>
     ),
-    headerRight: () => (
+    headerRight: (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
           title="Cart"
@@ -84,5 +151,9 @@ ProductsOverviewScreen.navigationOptions = navData => {
     )
   };
 };
+
+const styles = StyleSheet.create({
+  centered: { flex: 1, justifyContent: 'center', alignItems: 'center' }
+});
 
 export default ProductsOverviewScreen;

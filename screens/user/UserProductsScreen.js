@@ -1,4 +1,3 @@
-// Purpose - shows the user's products
 import React from 'react';
 import { FlatList, Button, Platform, Alert } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
@@ -64,7 +63,7 @@ const UserProductsScreen = props => {
 UserProductsScreen.navigationOptions = navData => {
   return {
     headerTitle: 'Your Products',
-    headerLeft: () => (
+    headerLeft: (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
           title="Menu"
@@ -75,7 +74,7 @@ UserProductsScreen.navigationOptions = navData => {
         />
       </HeaderButtons>
     ),
-    headerRight: () => (
+    headerRight: (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
           title="Add"

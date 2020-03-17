@@ -1,4 +1,3 @@
-// Purpose - shows the details for the product that was selected from the ProductsOverviewScreen
 import React from 'react';
 import {
   ScrollView,
@@ -8,15 +7,15 @@ import {
   Button,
   StyleSheet
 } from 'react-native';
-import { useSelector, useDispatch } from 'react-redux'; // see line 18, 21, 31 products are stored in redux
-// The store in Redux holds all of the application's state.
-import Colors from '../../constants/Colors'; // see line 28
-import * as cartActions from '../../store/actions/cart'; // see line 31
+import { useSelector, useDispatch } from 'react-redux';
+
+import Colors from '../../constants/Colors';
+import * as cartActions from '../../store/actions/cart';
 
 const ProductDetailScreen = props => {
-  const productId = props.navigation.getParam('productId'); // extract product id from parameters received
-  const selectedProduct = useSelector(state => // useSelector to select a single product
-    state.products.availableProducts.find(eachProduct => eachProduct.id === productId) // find a match
+  const productId = props.navigation.getParam('productId');
+  const selectedProduct = useSelector(state =>
+    state.products.availableProducts.find(prod => prod.id === productId)
   );
   const dispatch = useDispatch();
 
@@ -29,10 +28,10 @@ const ProductDetailScreen = props => {
           title="Add to Cart"
           onPress={() => {
             dispatch(cartActions.addToCart(selectedProduct));
-          }} // dispatch uses addToCart function in cart.js in actions folder
+          }}
         />
       </View>
-      <Text style={styles.price}>${selectedProduct.price.toFixed(2) /*2 decimals*/}</Text>
+      <Text style={styles.price}>${selectedProduct.price.toFixed(2)}</Text>
       <Text style={styles.description}>{selectedProduct.description}</Text>
     </ScrollView>
   );
@@ -46,8 +45,8 @@ ProductDetailScreen.navigationOptions = navData => {
 
 const styles = StyleSheet.create({
   image: {
-    width: '100%', // image will take the full width of screen
-    height: 400
+    width: '100%',
+    height: 300
   },
   actions: {
     marginVertical: 10,
