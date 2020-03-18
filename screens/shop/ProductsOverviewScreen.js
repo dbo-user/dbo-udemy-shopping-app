@@ -113,7 +113,7 @@ const ProductsOverviewScreen = props => {
           />
           <Button
             color={Colors.primary}
-            title="To Cart"
+            title="Add To Cart"
             onPress={() => {
               dispatch(cartActions.addToCart(itemData.item));
             }}
@@ -127,7 +127,7 @@ const ProductsOverviewScreen = props => {
 ProductsOverviewScreen.navigationOptions = navData => {
   return {
     headerTitle: 'All Products',
-    headerLeft: (
+    headerLeft: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
           title="Menu"
@@ -138,7 +138,7 @@ ProductsOverviewScreen.navigationOptions = navData => {
         />
       </HeaderButtons>
     ),
-    headerRight: (
+    headerRight: () => (
       <HeaderButtons HeaderButtonComponent={HeaderButton}>
         <Item
           title="Cart"

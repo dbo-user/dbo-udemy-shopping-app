@@ -1,7 +1,3 @@
-// Reducers are used to manage state.
-// State is data within a component that will change
-// A reducer is a function which takes two arguments -- the current state and an action -- and returns based on both arguments a new state.
-// The store (a place im memory) in Redux holds all of the application's state.
 import PRODUCTS from '../../data/dummy-data';
 import {
   DELETE_PRODUCT,
@@ -12,21 +8,21 @@ import {
 import Product from '../../models/product';
 
 const initialState = {
-  availableProducts: PRODUCTS, // from Products /data/dummy-data
-  userProducts: PRODUCTS.filter(prod => prod.ownerId === 'u1') // returns a new array of products where the owner id is u1
+  availableProducts: [],
+  userProducts: []
 };
 
 export default (state = initialState, action) => {
   switch (action.type) {
     case SET_PRODUCTS:
       return {
-        availableProducts: action.products, 
-        userProducts: action.products.filter(prod => prod.ownerId === 'u1')
+        availableProducts: action.products,
+        userProducts: action.userProducts
       };
     case CREATE_PRODUCT:
       const newProduct = new Product(
         action.productData.id,
-        'u1',
+        action.productData.ownerId,
         action.productData.title,
         action.productData.imageUrl,
         action.productData.description,

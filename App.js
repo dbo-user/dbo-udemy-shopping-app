@@ -8,12 +8,14 @@ import ReduxThunk from 'redux-thunk'; // it is middleware that looks at every ac
 import productsReducer from './store/reducers/products'; // reducers are like cashiers in a bank
 import cartReducer from './store/reducers/cart';
 import ordersReducer from './store/reducers/orders';
+import authReducer from './store/reducers/auth';
 import ShopNavigator from './navigation/ShopNavigator';
 
 const rootReducer = combineReducers({ // combine all the reducers to create the store on line 18
   products: productsReducer, // products is the key for productsReducer
   cart: cartReducer,
-  orders: ordersReducer
+  orders: ordersReducer,
+  auth: authReducer
 });
 
 const store = createStore(rootReducer, applyMiddleware(ReduxThunk)); // Store(bank vault) is a place in memory that stores all the state
