@@ -9,6 +9,8 @@ import {
 import { Ionicons } from '@expo/vector-icons';
 
 const CartItem = props => {
+  let num = props.amount;
+  let n = parseFloat(num).toFixed(2);
   return (
     <View style={styles.cartItem}>
       <View style={styles.itemData}>
@@ -16,7 +18,7 @@ const CartItem = props => {
         <Text style={styles.mainText}>{props.title}</Text>
       </View>
       <View style={styles.itemData}>
-        <Text style={styles.mainText}>${props.amount.toFixed(2)}</Text>
+        <Text style={styles.mainText}>${n}</Text>
         {props.deletable && (
           <TouchableOpacity
             onPress={props.onRemove}

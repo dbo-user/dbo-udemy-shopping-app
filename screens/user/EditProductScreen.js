@@ -56,7 +56,7 @@ const EditProductScreen = props => {
       title: editedProduct ? editedProduct.title : '',
       imageUrl: editedProduct ? editedProduct.imageUrl : '',
       description: editedProduct ? editedProduct.description : '',
-      price: ''
+      price: editedProduct ? editedProduct.price : ''
     },
     inputValidities: {
       title: editedProduct ? true : false,
@@ -89,7 +89,8 @@ const EditProductScreen = props => {
             prodId,
             formState.inputValues.title,
             formState.inputValues.description,
-            formState.inputValues.imageUrl
+            formState.inputValues.imageUrl,
+            +formState.inputValues.price
           )
         );
       } else {
@@ -167,7 +168,7 @@ const EditProductScreen = props => {
             initiallyValid={!!editedProduct}
             required
           />
-          {editedProduct ? null : (
+          
             <Input
               id="price"
               label="Price"
@@ -175,10 +176,12 @@ const EditProductScreen = props => {
               keyboardType="decimal-pad"
               returnKeyType="next"
               onInputChange={inputChangeHandler}
+              initialValue={editedProduct ? editedProduct.price.toString() : ''}
+              initiallyValid={!!editedProduct}
               required
               min={0.1}
             />
-          )}
+         
           <Input
             id="description"
             label="Description"

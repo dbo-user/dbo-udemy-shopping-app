@@ -12,7 +12,7 @@ export const fetchOrders = () => {
       );
 
       if (!response.ok) {
-        throw new Error('Something went wrong!');
+        throw new Error('Something went wrong with the Fetch in orders.js actions!');
       }
 
       const resData = await response.json();

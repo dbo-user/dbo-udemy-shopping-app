@@ -18,7 +18,7 @@ export default (state = initialState, action) => {
       let updatedOrNewCartItem;
 
       if (state.items[addedProduct.id]) {
-        // already have the item in the cart
+        // already have the item in the cart so add 1 to qty and increase the total
         updatedOrNewCartItem = new CartItem(
           state.items[addedProduct.id].quantity + 1,
           prodPrice,

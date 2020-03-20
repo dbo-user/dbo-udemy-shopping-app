@@ -18,7 +18,8 @@ const ProductDetailScreen = props => {
     state.products.availableProducts.find(prod => prod.id === productId)
   );
   const dispatch = useDispatch();
-
+  let num = selectedProduct.price;
+  let n = parseFloat(num).toFixed(2);
   return (
     <ScrollView>
       <Image style={styles.image} source={{ uri: selectedProduct.imageUrl }} />
@@ -31,7 +32,7 @@ const ProductDetailScreen = props => {
           }}
         />
       </View>
-      <Text style={styles.price}>${selectedProduct.price.toFixed(2)}</Text>
+      <Text style={styles.price}>${n}</Text>
       <Text style={styles.description}>{selectedProduct.description}</Text>
     </ScrollView>
   );

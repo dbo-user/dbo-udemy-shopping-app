@@ -41,14 +41,15 @@ const CartScreen = props => {
     await dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
     setIsLoading(false);
   };
-
+  let num = cartTotalAmount;
+  let n = parseFloat(num).toFixed(2);
   return (
     <View style={styles.screen}>
       <Card style={styles.summary}>
         <Text style={styles.summaryText}>
           Total:{' '}
           <Text style={styles.amount}>
-            ${Math.round(cartTotalAmount.toFixed(2) * 100) / 100}
+            ${n}
           </Text>
         </Text>
         {isLoading ? (

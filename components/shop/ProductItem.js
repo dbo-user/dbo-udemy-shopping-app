@@ -17,7 +17,8 @@ const ProductItem = props => {
   if (Platform.OS === 'android' && Platform.Version >= 21) {
     TouchableCmp = TouchableNativeFeedback;
   }
-
+  let num = props.price;
+  let n = parseFloat(num).toFixed(2);
   return (
     <Card style={styles.product}>
       <View style={styles.touchable}>
@@ -28,7 +29,7 @@ const ProductItem = props => {
             </View>
             <View style={styles.details}>
               <Text style={styles.title}>{props.title}</Text>
-              <Text style={styles.price}>${props.price.toFixed(2)}</Text>
+              <Text style={styles.price}>${n}</Text>
             </View>
             <View style={styles.actions}>
               {props.children}

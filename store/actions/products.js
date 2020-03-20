@@ -15,7 +15,7 @@ export const fetchProducts = () => {
       );
 
       if (!response.ok) {
-        throw new Error('Something went wrong!');
+        throw new Error('Something went wrong with the fetch in products.js actions!');
       }
 
       const resData = await response.json();
@@ -57,7 +57,7 @@ export const deleteProduct = productId => {
     );
 
     if (!response.ok) {
-      throw new Error('Something went wrong!');
+      throw new Error('Something went wrong with the delete in products.js actions!');
     }
     dispatch({ type: DELETE_PRODUCT, pid: productId });
   };
@@ -101,26 +101,27 @@ export const createProduct = (title, description, imageUrl, price) => {
   };
 };
 
-export const updateProduct = (id, title, description, imageUrl) => {
+export const updateProduct = (id, title, description, imageUrl, price) => {
   return async (dispatch, getState) => {
     const token = getState().auth.token;
     const response = await fetch(
       `https://shopping-app-92393.firebaseio.com/products/${id}.json?auth=${token}`,
       {
-        method: 'PATCH',
+        method: 'PATCH', // update specific fields
         headers: {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
           title,
           description,
-          imageUrl
+          imageUrl,
+          price
         })
       }
     );
 
     if (!response.ok) {
-      throw new Error('Something went wrong!');
+      throw new Error('Something went wrong with the update in products.js actions!');
     }
 
     dispatch({
@@ -129,7 +130,8 @@ export const updateProduct = (id, title, description, imageUrl) => {
       productData: {
         title,
         description,
-        imageUrl
+        imageUrl,
+        price
       }
     });
   };

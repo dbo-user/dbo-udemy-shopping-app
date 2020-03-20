@@ -7,11 +7,12 @@ import Card from '../UI/Card';
 
 const OrderItem = props => {
   const [showDetails, setShowDetails] = useState(false);
-
+  let num = props.amount;
+  let n = parseFloat(num).toFixed(2);
   return (
     <Card style={styles.orderItem}>
       <View style={styles.summary}>
-        <Text style={styles.totalAmount}>${props.amount.toFixed(2)}</Text>
+        <Text style={styles.totalAmount}>${n}</Text>
         <Text style={styles.date}>{props.date}</Text>
       </View>
       <Button
