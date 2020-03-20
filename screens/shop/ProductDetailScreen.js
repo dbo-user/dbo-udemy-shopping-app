@@ -5,7 +5,7 @@ import {
   Text,
   Image,
   Button,
-  StyleSheet
+  StyleSheet, Alert
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -29,6 +29,9 @@ const ProductDetailScreen = props => {
           title="Add to Cart"
           onPress={() => {
             dispatch(cartActions.addToCart(selectedProduct));
+            Alert.alert('Item Added!','', [
+              { text: 'Okay' }
+            ]);
           }}
         />
       </View>

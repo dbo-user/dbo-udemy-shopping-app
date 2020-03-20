@@ -6,7 +6,7 @@ import {
   Button,
   Platform,
   ActivityIndicator,
-  StyleSheet
+  StyleSheet, Alert
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
@@ -116,6 +116,9 @@ const ProductsOverviewScreen = props => {
             title="Add To Cart"
             onPress={() => {
               dispatch(cartActions.addToCart(itemData.item));
+              Alert.alert('Item Added!','', [
+                { text: 'Okay' }
+              ]);
             }}
           />
         </ProductItem>

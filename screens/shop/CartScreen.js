@@ -42,7 +42,7 @@ const CartScreen = props => {
     setIsLoading(false);
   };
   let num = cartTotalAmount;
-  let n = parseFloat(num).toFixed(2);
+  let n = Math.abs(parseFloat(num)).toFixed(2);
   return (
     <View style={styles.screen}>
       <Card style={styles.summary}>
