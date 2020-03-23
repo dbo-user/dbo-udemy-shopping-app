@@ -1,13 +1,13 @@
 {
   "expo": {
     "name": "Shopping App",
+    "description": "Shopping App for demonstration.",
     "slug": "shopping-app",
     "privacy": "public",
     "sdkVersion": "36.0.0",
     "platforms": [
       "ios",
-      "android",
-      "web"
+      "android"
     ],
     "version": "1.0.0",
     "orientation": "portrait",
@@ -15,10 +15,10 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
+      "backgroundColor": "#C2185B"
     },
     "updates": {
-      "fallbackToCacheTimeout": 0
+      "fallbackToCacheTimeout": 5000 
     },
     "assetBundlePatterns": [
       "**/*"

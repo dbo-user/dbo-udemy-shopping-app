@@ -162,7 +162,7 @@ const AuthScreen = props => {
 };
 
 AuthScreen.navigationOptions = {
-  headerTitle: 'Authenticate'
+  headerTitle: 'Shopping App'
 };
 
 const styles = StyleSheet.create({

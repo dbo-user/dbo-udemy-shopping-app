@@ -17,6 +17,7 @@ import * as ordersActions from '../../store/actions/orders';
 
 const CartScreen = props => {
   const [isLoading, setIsLoading] = useState(false);
+  const [qty, setQty] = useState();
 
   const cartTotalAmount = useSelector(state => state.cart.totalAmount);
   const cartItems = useSelector(state => {
@@ -41,6 +42,7 @@ const CartScreen = props => {
     await dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
     setIsLoading(false);
   };
+  
   let num = cartTotalAmount;
   let n = Math.abs(parseFloat(num)).toFixed(2);
   return (

@@ -12,12 +12,14 @@ import { useSelector, useDispatch } from 'react-redux';
 import { HeaderButtons, Item } from 'react-navigation-header-buttons';
 
 import HeaderButton from '../../components/UI/HeaderButton';
+import HeaderButton2 from '../../components/UI/HeaderButton2';
 import ProductItem from '../../components/shop/ProductItem';
 import * as cartActions from '../../store/actions/cart';
 import * as productsActions from '../../store/actions/products';
 import Colors from '../../constants/Colors';
 
 const ProductsOverviewScreen = props => {
+  //const [qty, setQty] = useState();
   const [isLoading, setIsLoading] = useState(false);
   const [isRefreshing, setIsRefreshing] = useState(false);
   const [error, setError] = useState();
@@ -84,7 +86,7 @@ const ProductsOverviewScreen = props => {
   if (!isLoading && products.length === 0) {
     return (
       <View style={styles.centered}>
-        <Text>No products found for this user. Maybe start adding some!</Text>
+        <Text>This user has not added any products. Maybe start adding some!</Text>
       </View>
     );
   }
@@ -121,13 +123,14 @@ const ProductsOverviewScreen = props => {
               ]);
             }}
           />
-        </ProductItem>
+        </ProductItem> 
       )}
     />
   );
 };
 
 ProductsOverviewScreen.navigationOptions = navData => {
+  
   return {
     headerTitle: 'All Products',
     headerLeft: () => (
@@ -142,10 +145,10 @@ ProductsOverviewScreen.navigationOptions = navData => {
       </HeaderButtons>
     ),
     headerRight: () => (
-      <HeaderButtons HeaderButtonComponent={HeaderButton}>
+      <HeaderButtons HeaderButtonComponent={HeaderButton2}>
         <Item
           title="Cart"
-          iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'}
+          iconName={Platform.OS === 'android' ? 'md-cart' : 'ios-cart'} 
           onPress={() => {
             navData.navigation.navigate('Cart');
           }}
