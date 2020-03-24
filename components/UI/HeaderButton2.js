@@ -9,9 +9,9 @@ import Colors from '../../constants/Colors';
 const CustomHeaderButton = (props) => {
  // quantity counter for the cart
   let cartQty = '';
-  const qty = useSelector(state => state.cart.totalQty); // totalQty comes ffom cart.js in store reducers
-  qty > 0 ? cartQty = qty : cartQty = ''
-    
+  const qty = useSelector(state => state.cart.totalQty); // totalQty comes from cart.js in store reducers
+  qty > 0 ? cartQty = qty : cartQty = '';
+  
   return (
     <>
     <HeaderButton
@@ -21,7 +21,7 @@ const CustomHeaderButton = (props) => {
       iconSize={23}
       color={Platform.OS === 'android' ? 'white' : Colors.primary}
     />
-    <Text style={{color:'white'}}>{cartQty}</Text>
+      <Text style={{color:Platform.OS === 'android' ? 'white' : Colors.primary}}>{cartQty}</Text>
     </>
     
   );

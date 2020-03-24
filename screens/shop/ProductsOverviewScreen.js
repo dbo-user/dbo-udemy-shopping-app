@@ -117,7 +117,7 @@ const ProductsOverviewScreen = props => {
             color={Colors.primary}
             title="Add To Cart"
             onPress={() => {
-              dispatch(cartActions.addToCart(itemData.item));
+              dispatch(cartActions.addToCart(itemData.item)); // line 4 in cart.js in store folder actions
               Alert.alert('Item Added!','', [
                 { text: 'Okay' }
               ]);

@@ -17,7 +17,7 @@ import * as ordersActions from '../../store/actions/orders';
 
 const CartScreen = props => {
   const [isLoading, setIsLoading] = useState(false);
-  const [qty, setQty] = useState();
+ 
 
   const cartTotalAmount = useSelector(state => state.cart.totalAmount);
   const cartItems = useSelector(state => {
@@ -51,7 +51,7 @@ const CartScreen = props => {
         <Text style={styles.summaryText}>
           Total:{' '}
           <Text style={styles.amount}>
-            ${n}
+            ${n} 
           </Text>
         </Text>
         {isLoading ? (
@@ -61,7 +61,7 @@ const CartScreen = props => {
             color={Colors.accent}
             title="Order Now"
             disabled={cartItems.length === 0}
-            onPress={sendOrderHandler}
+            onPress={sendOrderHandler} // call line 40
           />
         )}
       </Card>
