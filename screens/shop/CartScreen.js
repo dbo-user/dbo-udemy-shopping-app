@@ -5,7 +5,8 @@ import {
   FlatList,
   Button,
   StyleSheet,
-  ActivityIndicator
+  ActivityIndicator,
+  TextInput
 } from 'react-native';
 import { useSelector, useDispatch } from 'react-redux';
 
@@ -14,10 +15,12 @@ import CartItem from '../../components/shop/CartItem';
 import Card from '../../components/UI/Card';
 import * as cartActions from '../../store/actions/cart';
 import * as ordersActions from '../../store/actions/orders';
+//import { SENDGRID_API_KEY } from 'react-native-dotenv';
+import config from '../../config';
 
 const CartScreen = props => {
   const [isLoading, setIsLoading] = useState(false);
- 
+  const [formName, setFormName] = useState('');
 
   const cartTotalAmount = useSelector(state => state.cart.totalAmount);
   const cartItems = useSelector(state => {
@@ -41,6 +44,26 @@ const CartScreen = props => {
     setIsLoading(true);
     await dispatch(ordersActions.addOrder(cartItems, cartTotalAmount));
     setIsLoading(false);
+    
+    let body = { "personalizations": [ { "to": [ { "email": "01dboakley@gmail.com" } ], "subject": "Order" } ], "from": { "email": "01dboakley@gmail.com" }, "content": [ { "type": "text/plain", "value": `You have an order from ${formName}` } ] };
+ 
+ const apikey = config.SENDGRID_API_KEY;
+//console.log(apikey);
+    fetch('https://api.sendgrid.com/v3/mail/send', {
+      method: 'POST',
+      headers: {
+        'Authorization': 'Bearer ' + apikey,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(body),
+        }).then((response) => {
+          //this.setState({response: `${response.status} - ${response.ok}`});
+    });
+  
+  }; // end sendOrderHandler
+
+  const changeNameHandler = (inputText) => {
+    setFormName(inputText); // sets the formName to the inputText received from the onChangeText on line 92
   };
   
   let num = cartTotalAmount;
@@ -61,7 +84,7 @@ const CartScreen = props => {
             color={Colors.accent}
             title="Order Now"
             disabled={cartItems.length === 0}
-            onPress={sendOrderHandler} // call line 40
+            onPress={sendOrderHandler} // call line 42
           />
         )}
       </Card>
@@ -77,9 +100,15 @@ const CartScreen = props => {
             onRemove={() => {
               dispatch(cartActions.removeFromCart(itemData.item.productId));
             }}
+          /> // end CartItem
+        )} // end renderItem
+      /> 
+        <TextInput
+            style={styles.textInput}
+            placeholder="Your name"
+            maxLength={20}
+            onChangeText={changeNameHandler}
           />
-        )}
-      />
     </View>
   );
 };
@@ -105,6 +134,16 @@ const styles = StyleSheet.create({
   },
   amount: {
     color: Colors.primary
+  },
+  textInput: {
+    borderColor: '#CCCCCC',
+    borderTopWidth: 1,
+    borderBottomWidth: 1,
+    height: 50,
+    fontSize: 25,
+    paddingLeft: 20,
+    paddingRight: 20,
+    marginTop: 30
   }
 });
 
